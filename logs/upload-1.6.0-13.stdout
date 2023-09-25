@@ -1,0 +1,41 @@
+The push refers to repository [docker.io/wontruefree/crystal]
+882599d44e6a: Preparing
+bd9cc9d780d3: Preparing
+555aa4fa6f80: Preparing
+dddfc2a3c555: Preparing
+1a76491d1f5c: Preparing
+fdf7c6d38234: Preparing
+2b24ffadb3a4: Preparing
+994393dc58e7: Preparing
+fdf7c6d38234: Waiting
+2b24ffadb3a4: Waiting
+994393dc58e7: Waiting
+555aa4fa6f80: Retrying in 5 seconds
+1a76491d1f5c: Retrying in 5 seconds
+bd9cc9d780d3: Retrying in 5 seconds
+882599d44e6a: Retrying in 5 seconds
+555aa4fa6f80: Retrying in 4 seconds
+1a76491d1f5c: Retrying in 4 seconds
+bd9cc9d780d3: Retrying in 4 seconds
+882599d44e6a: Retrying in 4 seconds
+555aa4fa6f80: Retrying in 3 seconds
+1a76491d1f5c: Retrying in 3 seconds
+bd9cc9d780d3: Retrying in 3 seconds
+882599d44e6a: Retrying in 3 seconds
+555aa4fa6f80: Retrying in 2 seconds
+1a76491d1f5c: Retrying in 2 seconds
+bd9cc9d780d3: Retrying in 2 seconds
+882599d44e6a: Retrying in 2 seconds
+555aa4fa6f80: Retrying in 1 second
+1a76491d1f5c: Retrying in 1 second
+bd9cc9d780d3: Retrying in 1 second
+882599d44e6a: Retrying in 1 second
+dddfc2a3c555: Pushed
+1a76491d1f5c: Pushed
+fdf7c6d38234: Pushed
+994393dc58e7: Layer already exists
+bd9cc9d780d3: Pushed
+555aa4fa6f80: Pushed
+2b24ffadb3a4: Pushed
+882599d44e6a: Pushed
+1.6.0-13: digest: sha256:b5d74070e76db7113e22efe89f4487a305f4241bcd9c15e060bbbb39ada529f2 size: 2009

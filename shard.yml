@@ -1,0 +1,17 @@
+name: crystal_benchmark
+version: 0.1.0
+
+authors:
+  - Jack Thorne <jack@kilmer.co>
+
+targets:
+  crystal_benchmark:
+    main: src/crystal_benchmark.cr
+
+dependencies:
+  octokit:
+    github: watzon/octokit.cr
+
+crystal: 1.6.1
+
+license: MIT

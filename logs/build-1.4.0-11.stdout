@@ -1,0 +1,56 @@
+Sending build context to Docker daemon  865.5MB
+Step 1/18 : FROM alpine:3.16 as runtime
+ ---> 9c6f07244728
+Step 2/18 : MAINTAINER Jack Thorne <jack@kilmer.co>
+ ---> Using cache
+ ---> e75d325591d2
+Step 3/18 : ARG llvm_version
+ ---> Using cache
+ ---> 2378d6dfcf16
+Step 4/18 : ARG gc_version
+ ---> Using cache
+ ---> 1e9a190d3b61
+Step 5/18 : ARG crystal_targz
+ ---> Using cache
+ ---> 69a2375aac63
+Step 6/18 : RUN   apk add --update --no-cache --force-overwrite     gcc gmp-dev libevent-static musl-dev pcre-dev     libxml2-dev openssl-dev openssl-libs-static tzdata yaml-static zlib-static     make git     autoconf automake libtool patch
+ ---> Using cache
+ ---> 83db46162a5f
+Step 7/18 : COPY .cache/bdwgc /bdwgc
+ ---> Using cache
+ ---> 13705d60659d
+Step 8/18 : RUN cd bdwgc     && git checkout ${gc_version}         && ./autogen.sh     && ./configure --disable-debug --disable-shared --enable-large-config     && make -j$(nproc) CFLAGS=-DNO_GETCONTEXT     && make install
+ ---> Using cache
+ ---> 4f3658933a35
+Step 9/18 : RUN apk del -r --purge autoconf automake libtool patch
+ ---> Using cache
+ ---> 9a6cc877d582
+Step 10/18 : COPY ${crystal_targz} /tmp/crystal.tar.gz
+ ---> Using cache
+ ---> 5289db959a12
+Step 11/18 : RUN tar -xz -C /usr         --strip-component=1          -f /tmp/crystal.tar.gz         --exclude */lib/crystal/lib         --exclude */lib/crystal/*.a         --exclude */share/crystal/src/llvm/ext/llvm_ext.o &&     rm /tmp/crystal.tar.gz
+ ---> Using cache
+ ---> 6352c1290570
+Step 12/18 : CMD ["/bin/sh"]
+ ---> Using cache
+ ---> c59ee30721ce
+Step 13/18 : FROM runtime as build
+ ---> c59ee30721ce
+Step 14/18 : ENV PATH="${PATH}:/sandbox/bin"     CRYSTAL_CONFIG_BUILD_COMMIT="yolo"     CRYSTAL_CONFIG_PATH='$ORIGIN/../share/crystal/src'     SOURCE_DATE_EPOCH="1000000000"     CC="cc -fuse-ld=lld"     CRYSTAL_CONFIG_LIBRARY_PATH='$ORIGIN/../lib/crystal'
+ ---> Using cache
+ ---> 3a3dac33d446
+Step 15/18 : RUN     apk add --update --no-cache --force-overwrite     llvm${llvm_version}-dev llvm${llvm_version}-static g++ libffi-dev     perf
+ ---> Using cache
+ ---> 9d02f1c9a815
+Step 16/18 : ENTRYPOINT ["/bin/sh"]
+ ---> Using cache
+ ---> 1058ea42059a
+Step 17/18 : LABEL crystal=1.4.0
+ ---> Using cache
+ ---> 75ed28895886
+Step 18/18 : LABEL llvm=11
+ ---> Using cache
+ ---> f5d37c3ca897
+[Warning] One or more build-args [crystal_version] were not consumed
+Successfully built f5d37c3ca897
+Successfully tagged wontruefree/crystal:1.4.0-11

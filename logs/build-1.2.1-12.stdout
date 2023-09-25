@@ -1,0 +1,95 @@
+Sending build context to Docker daemon  865.5MB
+Step 1/18 : FROM alpine:3.16 as runtime
+ ---> 9c6f07244728
+Step 2/18 : MAINTAINER Jack Thorne <jack@kilmer.co>
+ ---> Using cache
+ ---> e75d325591d2
+Step 3/18 : ARG llvm_version
+ ---> Using cache
+ ---> 2378d6dfcf16
+Step 4/18 : ARG gc_version
+ ---> Using cache
+ ---> 1e9a190d3b61
+Step 5/18 : ARG crystal_targz
+ ---> Using cache
+ ---> 69a2375aac63
+Step 6/18 : RUN   apk add --update --no-cache --force-overwrite     gcc gmp-dev libevent-static musl-dev pcre-dev     libxml2-dev openssl-dev openssl-libs-static tzdata yaml-static zlib-static     make git     autoconf automake libtool patch
+ ---> Using cache
+ ---> 7b0bf6aaa0a9
+Step 7/18 : COPY .cache/bdwgc /bdwgc
+ ---> Using cache
+ ---> 4d5645ac9bca
+Step 8/18 : RUN cd bdwgc     && git checkout ${gc_version}         && ./autogen.sh     && ./configure --disable-debug --disable-shared --enable-large-config     && make -j$(nproc) CFLAGS=-DNO_GETCONTEXT     && make install
+ ---> Using cache
+ ---> cb9851a6b321
+Step 9/18 : RUN apk del -r --purge autoconf automake libtool patch
+ ---> Using cache
+ ---> 8afadac0ee61
+Step 10/18 : COPY ${crystal_targz} /tmp/crystal.tar.gz
+ ---> Using cache
+ ---> 14be2c6861ba
+Step 11/18 : RUN tar -xz -C /usr         --strip-component=1          -f /tmp/crystal.tar.gz         --exclude */lib/crystal/lib         --exclude */lib/crystal/*.a         --exclude */share/crystal/src/llvm/ext/llvm_ext.o &&     rm /tmp/crystal.tar.gz
+ ---> Using cache
+ ---> ce0aadd9ae9a
+Step 12/18 : CMD ["/bin/sh"]
+ ---> Using cache
+ ---> cc92c04889b2
+Step 13/18 : FROM runtime as build
+ ---> cc92c04889b2
+Step 14/18 : ENV PATH="${PATH}:/sandbox/bin"     CRYSTAL_CONFIG_BUILD_COMMIT="yolo"     CRYSTAL_CONFIG_PATH='$ORIGIN/../share/crystal/src'     SOURCE_DATE_EPOCH="1000000000"     CC="cc -fuse-ld=lld"     CRYSTAL_CONFIG_LIBRARY_PATH='$ORIGIN/../lib/crystal'
+ ---> Using cache
+ ---> 1916b2ff5066
+Step 15/18 : RUN     apk add --update --no-cache --force-overwrite     llvm${llvm_version}-dev llvm${llvm_version}-static g++ libffi-dev     perf wget
+ ---> Running in 7d3bdcab8df5
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+(1/31) Installing libc-dev (0.7.2-r3)
+(2/31) Installing g++ (11.2.1_git20220219-r2)
+(3/31) Installing linux-headers (5.16.7-r1)
+(4/31) Installing libffi (3.4.2-r1)
+(5/31) Installing libffi-dev (3.4.2-r1)
+(6/31) Installing llvm13-libs (13.0.1-r2)
+(7/31) Installing llvm13 (13.0.1-r2)
+(8/31) Installing libbz2 (1.0.8-r1)
+(9/31) Installing gdbm (1.23-r0)
+(10/31) Installing mpdecimal (2.5.1-r1)
+(11/31) Installing ncurses-terminfo-base (6.3_p20220521-r0)
+(12/31) Installing ncurses-libs (6.3_p20220521-r0)
+(13/31) Installing readline (8.1.2-r0)
+(14/31) Installing sqlite-libs (3.38.5-r0)
+(15/31) Installing python3 (3.10.8-r0)
+(16/31) Installing py3-appdirs (1.4.4-r3)
+(17/31) Installing py3-more-itertools (8.13.0-r0)
+(18/31) Installing py3-ordered-set (4.0.2-r3)
+(19/31) Installing py3-parsing (2.4.7-r3)
+(20/31) Installing py3-six (1.16.0-r1)
+(21/31) Installing py3-packaging (21.3-r0)
+(22/31) Installing py3-setuptools (59.4.0-r0)
+(23/31) Installing llvm13-test-utils (13.0.1-r2)
+(24/31) Installing llvm13-dev (13.0.1-r2)
+(25/31) Installing llvm13-static (13.0.1-r2)
+(26/31) Installing fts (1.2.7-r1)
+(27/31) Installing libelf (0.186-r0)
+(28/31) Installing perf (5.15.35-r1)
+(29/31) Installing libunistring (1.0-r0)
+(30/31) Installing libidn2 (2.3.2-r2)
+(31/31) Installing wget (1.21.3-r0)
+Executing busybox-1.35.0-r17.trigger
+OK: 730 MiB in 83 packages
+Removing intermediate container 7d3bdcab8df5
+ ---> ffe904c39e99
+Step 16/18 : ENTRYPOINT ["/bin/sh"]
+ ---> Running in 0bc795d577fd
+Removing intermediate container 0bc795d577fd
+ ---> 9bd1eb16dd97
+Step 17/18 : LABEL crystal=1.2.1
+ ---> Running in b0fc48436367
+Removing intermediate container b0fc48436367
+ ---> a29b6b49c343
+Step 18/18 : LABEL llvm=12
+ ---> Running in 45ed2bb1e096
+Removing intermediate container 45ed2bb1e096
+ ---> 20ec1c782706
+[Warning] One or more build-args [crystal_version] were not consumed
+Successfully built 20ec1c782706
+Successfully tagged wontruefree/crystal:1.2.1-12

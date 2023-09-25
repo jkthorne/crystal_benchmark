@@ -1,0 +1,21 @@
+The push refers to repository [docker.io/wontruefree/crystal]
+c286002a207b: Preparing
+82830ba2f7c3: Preparing
+d41531008ca5: Preparing
+a15e3c577330: Preparing
+93a550e6f3dc: Preparing
+4afb375fa083: Preparing
+138ba56ba537: Preparing
+994393dc58e7: Preparing
+4afb375fa083: Waiting
+138ba56ba537: Waiting
+994393dc58e7: Waiting
+a15e3c577330: Pushed
+93a550e6f3dc: Pushed
+4afb375fa083: Pushed
+994393dc58e7: Layer already exists
+82830ba2f7c3: Pushed
+d41531008ca5: Pushed
+138ba56ba537: Pushed
+c286002a207b: Pushed
+1.6.1-13: digest: sha256:f204c8eb3dee2818130c11f9c86e7c7531acdd0237c05dcf385cdc21eebdf446 size: 2009
